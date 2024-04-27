@@ -48,7 +48,32 @@
                 docElem.style.fontSize = fontSize;
                 //$("textarea").css({fontSize:fontSize});
             }
-             </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+
+                                   method: "POST", data: {qr: qr}, success: function (body) {
+                            var guideInfo = body.data;
+                            if(guideInfo){
+                                $("[data-e='guide_info'] img").attr("src", guideInfo.pic_avatar);
+                                $("[data-e='guide_info'] h3").text(guideInfo.user_name);
+                            }else {
+                                $("#no-result").text(body.reason)
+                                $("[data-e='guide_info']").hide();
+                                $(".no-result-").show();
+                            }
+                            $("#body").show();
+                        }
+                    });
+                }
+            }
+
+            $(document).ready(function () {
+                queryGuideInfo();
+                initPage();
+                $("#body").hide();
+            });
+
+
+        })(window);
+    </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
 
 </head>
 
@@ -65,7 +90,7 @@
                     <img src="./upload_df1013e8672142a8b0cf1fb889146db8.jpg">
                 </div>
                 <div class="contents-txt">
-                    <h3>孙丽丽</h3>
+                    <h3>陶向飞</h3>
                     <p>想要查看导游的电子导游证请关注以下二维码</p>
                 </div>
 
