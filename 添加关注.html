@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://tgauth.12301.cn/html/code.html#AkIPBsYzygj -->
+<html class="pixel-ratio-1" style="font-size: 63.1875px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="renderer" content="webkit">
+    <title>添加关注</title>
+    <link href="./添加关注_files/reset.css" rel="stylesheet" type="text/css">
+    <link href="./添加关注_files/guide-cert.css" rel="stylesheet" type="text/css">
+    <link href="./添加关注_files/assess.css" rel="stylesheet" type="text/css">
+    <link href="./添加关注_files/jquery-weui.css" rel="stylesheet" type="text/css">
+    <link href="./添加关注_files/weui.min.css" rel="stylesheet" type="text/css">
+    <script src="./添加关注_files/jquery-1.12.4.min.js.下载"></script>
+    <script src="./添加关注_files/jquery-weui.js.下载"></script>
+    <script>
+        //wap页面rem设置
+        (function (win) {
+            var ratio, scaleValue, renderTime,
+                document = window.document,
+                docElem = document.documentElement,
+                vpm = document.querySelector('meta[name="viewport"]');
+
+            if (vpm) {
+                var tempArray = vpm.getAttribute("content").match(/initial\-scale=(["']?)([\d\.]+)\1?/);
+                if (tempArray) {
+                    scaleValue = parseFloat(tempArray[2]);
+                    ratio = parseInt(1 / scaleValue);
+                }
+            } else {
+                vpm = document.createElement("meta");
+                vpm.setAttribute("name", "viewport");
+                vpm.setAttribute("content", "width=device-width, initial-scale=1, user-scalable=no, minimal-ui");
+                docElem.firstElementChild.appendChild(vpm);
+            }
+
+            win.addEventListener("resize", function () {
+                clearTimeout(renderTime);
+                renderTime = setTimeout(initPage, 300);
+            }, false);
+
+            win.addEventListener("pageshow", function (e) {
+                e.persisted && (clearTimeout(renderTime), renderTime = setTimeout(initPage, 300));
+            }, false);
+            function initPage() {
+                var htmlWidth = docElem.getBoundingClientRect().width;
+                htmlWidth / ratio > 540 && (htmlWidth = 540 * ratio);
+                win.rem = htmlWidth / 16;
+                var fontSize = win.rem + "px";
+                docElem.style.fontSize = fontSize;
+                //$("textarea").css({fontSize:fontSize});
+            }
+
+            function queryGuideInfo() {
+
+                var qr = location.hash;
+                if (! qr) {
+
+                    alert("链接错误");
+                } else {
+                    var url = "/qr/guide_info";
+                    qr = qr.replace(/^#/,"");
+                    $.ajax(url, {
+                        method: "POST", data: {qr: qr}, success: function (body) {
+                            var guideInfo = body.data;
+                            if(guideInfo){
+                                $("[data-e='guide_info'] img").attr("src", guideInfo.pic_avatar);
+                                $("[data-e='guide_info'] h3").text(guideInfo.user_name);
+                            }else {
+                                $("#no-result").text(body.reason)
+                                $("[data-e='guide_info']").hide();
+                                $(".no-result-").show();
+                            }
+                            $("#body").show();
+                        }
+                    });
+                }
+            }
+
+            $(document).ready(function () {
+                queryGuideInfo();
+                initPage();
+                $("#body").hide();
+            });
+
+
+        })(window);
+    </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+
+</head>
+
+<body class="over-no" id="body" style="display: block;">
+<img src="./添加关注_files/code-bg.jpg" class="code-bg">
+<div class="cert-wrap code-rel">
+    <div class="join-code">
+        <ul>
+            <li class="no-result-">
+                <div class="no-result" id="no-result">未查到导游信息</div>
+            </li>
+            <li data-e="guide_info">
+                <div class="photo-imgsz">
+                    <img src="./添加关注_files/upload_df1013e8672142a8b0cf1fb889146db8.jpg">
+                </div>
+                <div class="contents-txt">
+                    <h3>陶向飞</h3>
+                    <p>想要查看导游的电子导游证请关注以下二维码</p>
+                </div>
+
+            </li>
+            <li>
+                <div class="img-code">
+                    <img src="./添加关注_files/code-2.png">
+                    <b>点击放大后长按识别二维码</b>
+                </div>
+                <div class="contents-txt">
+                    <h3>导游或游客</h3>
+                    <p>请关注左边的公众号，然后扫描导游证二维码即可查验导游证</p>
+                </div>
+
+            </li>
+            <li>
+                <div class="img-code">
+                    <img src="./添加关注_files/code-1.png">
+                    <b>点击放大后长按识别二维码</b>
+                </div>
+                <div class="contents-txt">
+                    <h3>旅游局主管部门</h3>
+                    <p>请在导游平台添加账号，然后关注“全国旅游监管”，即可扫码导游证二维码查验导游证</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="big-img"></div>
+
+
+<script>
+    $(".img-code").click(function () {
+        $(".big-img").show();
+        var imgSrc = $(this).parents(".join-code ul li").find("img").attr("src");
+        console.log(imgSrc)
+        text = "<img src='" + imgSrc + "' style='width: 80%;  height: auto; margin-top:40%;  '><span class='closeds'>[关闭]</span>"
+        $(".big-img").html(text);
+
+    })
+    $(".big-img").on("click", ".closeds", function () {
+        $(".big-img").hide();
+    })
+</script>
+</body></html>
