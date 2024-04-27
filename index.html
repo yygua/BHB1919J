@@ -48,42 +48,7 @@
                 docElem.style.fontSize = fontSize;
                 //$("textarea").css({fontSize:fontSize});
             }
-
-            function queryGuideInfo() {
-
-                var qr = location.hash;
-                if (! qr) {
-
-                    alert("链接错误");
-                } else {
-                    var url = "/qr/guide_info";
-                    qr = qr.replace(/^#/,"");
-                    $.ajax(url, {
-                        method: "POST", data: {qr: qr}, success: function (body) {
-                            var guideInfo = body.data;
-                            if(guideInfo){
-                                $("[data-e='guide_info'] img").attr("src", guideInfo.pic_avatar);
-                                $("[data-e='guide_info'] h3").text(guideInfo.user_name);
-                            }else {
-                                $("#no-result").text(body.reason)
-                                $("[data-e='guide_info']").hide();
-                                $(".no-result-").show();
-                            }
-                            $("#body").show();
-                        }
-                    });
-                }
-            }
-
-            $(document).ready(function () {
-                queryGuideInfo();
-                initPage();
-                $("#body").hide();
-            });
-
-
-        })(window);
-    </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+             </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
 
 </head>
 
